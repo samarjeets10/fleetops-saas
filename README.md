@@ -4,7 +4,7 @@ A production-minded multi-tenant SaaS platform built for small teams to seamless
 
 ---
 
-## Portfolio Project #1 — Full-Stack SaaS Foundation
+## Full-Stack SaaS Foundation Project
 
 ### Overview
 FleetOps-SaaS is engineered as a real-world, production-ready SaaS product rather than a superficial, feature-heavy demo project. The primary objective is to deliver a complete, highly secure, maintainable, and deployable full-stack application that explicitly showcases the high-level engineering standards and responsibilities expected of a modern full-stack developer.
