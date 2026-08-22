@@ -92,7 +92,7 @@ The immediate priority is to finalize the following architectural and product bl
 - [x] `05-roles-and-permissions.md`
 
 ### Architecture & Schemas
-- [ ] `06-system-architecture.md` (Frontend & Backend infrastructure mapping)
+- [x] `06-system-architecture.md` (Frontend & Backend infrastructure mapping)
 - [ ] `07-database-design.md` (Collections, indexes, and relations)
 - [ ] `08-api-design.md` (Route definitions and payload schemas)
 
