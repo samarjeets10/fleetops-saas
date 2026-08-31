@@ -6,8 +6,8 @@ dotenv.config({ path: path.resolve(__dirname, "../../.env"), quiet: true });
 
 
 const envSchema = z.object({
-    NODE_ENV: z.enum(["developement", "test", "production"])
-    .default("developement"),
+    NODE_ENV: z.enum(["development", "test", "production"])
+    .default("development"),
 
     PORT: z.coerce.number().int().positive().default(3000),
 
