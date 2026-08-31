@@ -10,33 +10,17 @@
 
 * **Project Name:** FleetOps-SaaS
 * **Project Type:** Multi-tenant B2B SaaS
-* **Current Phase:** Phase 0 — Product Foundation
-* **Current Status:** Documentation foundation established; application implementation has not yet commenced.
-* **MVP Status:** Not Started
+* **Current Phase:** Phase 1 — Backend Foundation
+* **Current Status:** Documentation foundation complete; Express server operational with environment validation, MongoDB connectivity, centralized error handling, and security middleware in place.
+* **MVP Status:** In Development
 * **Production Deployment:** Not Started
-* **Last Updated:** 2026-08-21
+* **Last Updated:** 2026-09-01
 
 ---
 
 ## Current Objective
 
-**Goal:** Establish the complete product, domain, and engineering specifications prior to initializing application codebase scaffolding.
-
-The immediate priority is to finalize the following architectural and product blueprints:
-
-1. Product vision
-2. Problem and target users
-3. MVP functional requirements
-4. End-to-end user flows
-5. Roles and permissions matrices (RBAC)
-6. System and application architecture
-7. Relational and document database design
-8. RESTful API design contracts
-9. Security and threat mitigation requirements
-10. End-to-end testing strategy
-11. DevOps, CI/CD, and deployment strategy
-12. AI-assisted development protocols
-13. Architectural Decision Records (ADRs)
+**Goal:** Finish the remaining Phase 1 backend foundation pieces (request validation infrastructure, API versioning decision) before starting Phase 2 — the User model and authentication service.
 
 ---
 
@@ -74,11 +58,26 @@ The immediate priority is to finalize the following architectural and product bl
 - [x] Node.js + Express.js
 - [x] MongoDB + Mongoose
 - [x] JWT + Refresh Token Rotation
+- [x] Zod (env + request validation)
+- [x] Helmet (security headers)
 
 **Infrastructure:**
 - [x] Git + GitHub
 - [x] Docker (Containerization)
 - [x] GitHub Actions (CI/CD workflows)
+
+### Backend Foundation (Phase 1)
+- [x] Backend Node.js project initialized
+- [x] Backend dependency installation completed
+- [x] Express application initialized
+- [x] Basic server bootstrap implemented
+- [x] Environment/configuration module implemented (`src/config/env.js`, Zod-validated, fail-fast on missing/invalid vars)
+- [x] MongoDB connection implemented (`src/config/database.js`, lifecycle event logging, graceful disconnect helper)
+- [x] Health/readiness check implemented (`GET /health`)
+- [x] Centralized error handling implemented (`src/middlewares/error.middleware.js`; normalizes Mongoose validation/cast/duplicate-key errors and JWT errors into a consistent response shape)
+- [x] Security middleware implemented (Helmet + CORS with credentials)
+- [x] Structured logging implemented (`src/config/logger.js`, dependency-free JSON logger)
+- [x] Standard utility layer implemented (`ApiError`, `ApiResponse`, `asyncHandler`)
 
 ---
 
@@ -99,7 +98,7 @@ The immediate priority is to finalize the following architectural and product bl
 ### Security Engineering
 - [ ] Authentication security protocols
 - [ ] Authorization and tenant-isolation modeling
-- [ ] Input validation and sanitization strategy
+- [ ] Input validation and sanitization strategy (Zod is in place as the tool; per-route schemas not yet written)
 - [ ] Rate-limiting thresholds
 - [ ] File upload constraints
 - [ ] Secret management protocols
@@ -108,46 +107,34 @@ The immediate priority is to finalize the following architectural and product bl
 - [ ] Unit, Integration, and E2E testing strategies
 - [ ] Docker and multi-container Compose configurations
 - [ ] CI/CD pipeline design
-- [ ] Health/readiness checks and structured logging setups
 
 ### Application Codebase
-
 - [ ] Frontend React environment initialized
-- [x] Backend Node.js project initialized
-- [x] Backend dependency installation completed
-- [x] Express application initialized
-- [x] Basic server bootstrap implemented
-- [ ] Environment/configuration module implemented
-- [ ] MongoDB connection implemented
-- [ ] Health/readiness checks implemented
-- [ ] Centralized error handling implemented
-- [ ] Security middleware implemented
-- [ ] Structured logging implemented
-- [ ] Request validation infrastructure implemented
+- [ ] Request validation infrastructure implemented (Zod schemas per route)
 - [ ] API versioning implemented
-- [ ] Auth, Organizations, RBAC, Projects, Tasks, and Comments endpoints implemented
+- [ ] Rate limiting implemented
+- [ ] Request-ID tracing implemented
+- [ ] User model implemented
+- [ ] Auth service (registration/login) implemented
+- [ ] Organizations, RBAC, Projects, Tasks, and Comments endpoints implemented
 
 ---
 
 ## Current Active Milestone
 
 ### Milestone 0 — Product Foundation
-**Status:** completed (Documentation foundation established; application implementation not yet started).
+**Status:** Complete.
 
-**Goal:** Formulate a comprehensive, immutable architectural foundation before committing to application code.
+### Milestone 1 — Backend Foundation
+**Status:** In progress.
 
-**Active Task:** Establish the complete product specification.
+**Goal:** Stand up a secure, observable Express server with validated configuration and MongoDB connectivity, ready to carry application-layer features.
 
+**Completed this milestone:** Environment validation, MongoDB connection lifecycle, centralized error handling, security headers/CORS, structured logging, standard error/response utilities.
 
-**Exit Criteria:**
-Milestone 0 is exclusively considered complete when all foundational blueprints (Vision, MVP Scope, RBAC, DB Schemas, API Contracts, Security, Testing, and DevOps strategies) are thoroughly documented, reviewed, and committed to the repository.
+**Remaining for this milestone:** Per-route Zod request validation infrastructure, an explicit API-versioning decision (or explicit decision to defer it).
 
-
-## Current Phase:** Phase 1 — Backend Foundation
-* **Current Status:** Product documentation foundation completed; backend project initialized and Express server operational.
-* **MVP Status:** In Development
-* **Production Deployment:** Not Started
-* **Last Updated:** 2026-08-28
+**Next Milestone:** Milestone 2 — Authentication (User model, registration/login, JWT access + refresh token issuance).
 
 ---
 
@@ -187,7 +174,8 @@ Milestone 0 is exclusively considered complete when all foundational blueprints 
 
 ## Blockers & Known Issues
 * **Blockers:** None currently identified.
-* **Known Issues:** None currently identified.
+* **Known Issues:**
+  * `server.js` registers `SIGTERM`/`SIGINT` handlers that call an undefined `shutdown()` function — graceful shutdown will throw a `ReferenceError` instead of closing the HTTP server and MongoDB connection cleanly. Needs a fix before this is relied on in any deployed environment.
 
 ---
 
